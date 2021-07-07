@@ -4,42 +4,29 @@ namespace Niravadea.BoomerSpeak.LanguageVersion1
 {
     public class Accumulator
     {
-        StringBuilder _accumulatedString;
-        bool _capitalizationEligible;
+        StringBuilder _accumulatedString = new StringBuilder();
+        bool _capitalizationEligible = false;
 
-        public Accumulator()
+        public void Accumulate(char c)
         {
-            _accumulatedString = new StringBuilder();
-            _capitalizationEligible = false;
-        }
-
-        public Accumulator(StringBuilder accumulatedString, bool capitalizationEligible)
-        {
-            _accumulatedString = accumulatedString;
-            _capitalizationEligible = capitalizationEligible;
-        }
-
-        public StringBuilder AccumulatedString
-        {
-            get
+            // check if the letter is subject to cap switching
+            if (char.IsLetter(c))
             {
-                return _accumulatedString;
+                char newChar;
+                if (_capitalizationEligible)
+                {
+                    newChar = char.ToLower(c);
+                }
+                else
+                {
+                    newChar = char.ToUpper(c);
+                }
+                _accumulatedString.Append(newChar);
+                _capitalizationEligible = !_capitalizationEligible;
             }
-            set
+            else
             {
-                _accumulatedString = value;
-            }
-        }
-
-        public bool CapitalizationEligible
-        {
-            get
-            {
-                return _capitalizationEligible;
-            }
-            set
-            {
-                _capitalizationEligible = value;
+                _accumulatedString.Append(c);
             }
         }
 
